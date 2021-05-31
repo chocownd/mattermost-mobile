@@ -93,6 +93,7 @@ commands:
     description: "Get JavaScript dependencies"
     steps:
       - node/install:
+          npm-version: '7.13.0'
           node-version: '16.2.0'
       - restore_cache:
           name: Restore npm cache
