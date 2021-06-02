@@ -87,6 +87,7 @@ class WebSocketClient {
                 return;
             }
 
+            console.trace(`WEBSOCKET_ESTABLISH, connectionUrl=${connectionUrl}, origin=${JSON.stringify(origin, null, 2)}, additional=${JSON.stringify(additionalOptions)}`);
             this.conn = new WebSocket(connectionUrl, [], {headers: {origin}, ...(additionalOptions || {})});
             this.connectionUrl = connectionUrl;
             this.token = token;

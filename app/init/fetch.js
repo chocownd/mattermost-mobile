@@ -81,7 +81,11 @@ Client4.doFetchWithResponse = async (url, options) => {
 
     let data;
     try {
-        response = await fetch(url, requestOptions);
+        response = await fetch(url, requestOptions).
+            then((res) => {
+                console.trace(`HOOK_API_CALLED\nURL=${url}\nREQUEST_OPTIONS=${JSON.stringify(requestOptions, null, 2)}\nRESULT=${JSON.stringify(res, null, 2)}`);
+                return res;
+            });
         headers = response.headers;
         if (!url.startsWith('https') && response.rnfbRespInfo && response.rnfbRespInfo.redirects && response.rnfbRespInfo.redirects.length > 1) {
             handleRedirectProtocol(url, response);

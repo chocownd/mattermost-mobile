@@ -20,6 +20,8 @@ import {createMiddlewares} from './middlewares';
 import Store from './store';
 import {transformSet, serialize} from './utils';
 
+import {create} from 'jsondiffpatch';
+
 /**
  * Configures and constructs the redux store. Accepts the following parameters:
  * preloadedState - Any preloaded state to be applied to the store after it is initially configured.
@@ -197,12 +199,20 @@ export default function configureStore(storage: any, preloadedState: any = {}, o
     const persistedReducer = persistReducer({...persistConfig}, rootReducer);
     const options: ClientOptions = Object.assign({}, defaultOptions, optionalOptions);
 
+    const loggerMiddleware: redux.Middleware = (api) => (next) => (action) => {
+        const prevState = api.getState();
+        const result = next(action);
+        const nextState = api.getState();
+        console.trace(`PREV_STATE=${JSON.stringify(prevState, null, 2)}\nNEXT_STATE=${JSON.stringify(nextState, null, 2)}\nACTION=${JSON.stringify(action, null, 2)}\nSTATE_DIFF=${JSON.stringify(create().diff(prevState, nextState), null, 2)}`);
+        return result;
+    };
     const store = redux.createStore(
         persistedReducer,
         baseState,
         redux.compose(
             redux.applyMiddleware(
                 ...createMiddlewares(options),
+                loggerMiddleware,
             ),
         ),
     );

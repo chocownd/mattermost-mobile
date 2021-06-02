@@ -28,6 +28,7 @@
     "fuse.js": "6.4.3",
     "intl": "1.2.5",
     "jail-monkey": "2.3.3",
+    "jsondiffpatch": "0.4.1",
     "mime-db": "1.45.0",
     "moment-timezone": "0.5.32",
     "prop-types": "15.7.2",

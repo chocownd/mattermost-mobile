@@ -299,6 +299,7 @@ function handleClose(connectFailCount: number) {
 }
 
 function handleEvent(msg: WebSocketMessage) {
+    console.trace(`HOOK_WEBSOCKET_MSG=${JSON.stringify(msg, null, 2)}`);
     return (dispatch: DispatchFunc) => {
         switch (msg.event) {
         case WebsocketEvents.POSTED:
